@@ -1,0 +1,111 @@
+<div class="container">
+  <div class="card mb-3">
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit(form)" #form="ngForm" novalidate>
+
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            class="form-control"
+            [(ngModel)]="item.name"
+            [ngClass]="{'is-invalid' : Name.errors  && form.submitted || Name.errors  && Name.touched}"
+            #Name = "ngModel"
+            (focus)="onFocus(Name)"
+            name="name"
+            required
+          >
+          <div class="invalid-feedback" [hidden]="!Name.errors?.required ">Name: Required</div>
+        </div>
+
+        <div class="form-group">
+          <label for="eMail">Email address</label>
+          <input
+              type="email"
+              class="form-control"
+              [(ngModel)]="item.eMail"
+              [ngClass]="{'is-invalid' : Mail.errors  && form.submitted  || Mail.errors  && Mail.touched}"
+              #Mail = "ngModel"
+              name="eMail"
+              id="eMail"
+              placeholder="name@example.com"
+              required
+          >
+          <div class="invalid-feedback" [hidden]="!Mail.errors?.required ">E-Mail: Required</div>
+        </div>
+
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input
+            type="number"
+            id="age"
+            class="form-control"
+            [(ngModel)]="item.age"
+            [ngClass]="{'is-invalid' : Age.errors  && form.submitted || Age.value < 18  && Age.touched}"
+            #Age = "ngModel"
+            name="age"
+            min="18"
+            (focus)="onFocus(Age)"
+            required
+          >
+          <div class="invalid-feedback" *ngIf="Age.value < 18">Age: 18 Required</div>
+          <div class="invalid-feedback" [hidden]="!Age.errors?.required ">Age: Required</div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Mobile phone</label>
+          <input
+            type="tel"
+            id="phone"
+            class="form-control"
+            [(ngModel)]="item.phone"
+            [ngClass]="{'is-invalid' : Phone.errors  && form.submitted || Phone.errors  && Phone.touched}"
+            #Phone = "ngModel"
+            name="phone"
+            placeholder="123-456-7890"
+            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            required
+          >
+          <div class="invalid-feedback" [hidden]="!Phone.errors?.required ">Phone: Required</div>
+        </div>
+
+        <div class="form-group">
+          <label for="comments">Comments</label>
+          <textarea
+              class="form-control"
+              #Comments = "ngModel"
+              [(ngModel)]="item.comments"
+              name="comments"
+              id="comments"
+              rows="3">
+          </textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+      </form>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">E-Mail</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Comments</th>
+      <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of clientList; let i = index;">
+      <th scope="row">{{ item.id }}</th>
+      <td>{{ item.name }}</td>
+      <td>{{ item.eMail }}</td>
+      <td>{{ item.phone }}</td>
+      <td>{{ item.comments }}</td>
+      <td><button type="button" class="btn btn-danger" (click)="clientList.splice(i, 1)">X</button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
